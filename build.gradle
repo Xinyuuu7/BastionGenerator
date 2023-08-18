@@ -1,0 +1,35 @@
+plugins {
+    id 'java'
+}
+group 'org.example'
+version '1.0-SNAPSHOT'
+repositories {
+    mavenCentral()
+    maven {
+        url "https://maven.seedfinding.com"
+    }
+    maven {
+        url "https://maven.latticg.com/"
+    }
+    maven {
+        url "https://jitpack.io"
+    }
+}
+dependencies {
+    implementation("com.seedfinding:mc_math:LATEST")
+    implementation("com.seedfinding:mc_seed:LATEST")
+    implementation("com.seedfinding:mc_core:LATEST")
+    implementation("com.seedfinding:mc_terrain:LATEST")
+    implementation("com.seedfinding:mc_biome:LATEST")
+    implementation('com.seedfinding:mc_feature:LATEST')
+    implementation("com.seedfinding:mc_reversal:LATEST")
+    implementation("com.seedfinding:mc_noise:LATEST")
+    implementation('com.github.jellejurre:seed-checker:1.0.0-1.16.1'){transitive=false}
+    implementation('com.github.profotoce59:VillageGenerator:main-SNAPSHOT'){transitive=false}
+    implementation 'com.seedfinding:latticg:1.05@jar'
+    implementation 'junit:junit:4.13.1'
+    implementation 'com.google.code.findbugs:jsr305:3.0.2'
+}
+test {
+    useJUnitPlatform()
+}
