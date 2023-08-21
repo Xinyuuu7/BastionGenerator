@@ -1,7 +1,6 @@
 package BastionGenerator.reecriture.BastionPools;
 
 import com.seedfinding.mccore.util.pos.BPos;
-import profotoce59.properties.VillageGenerator;
 
 import java.util.HashMap;
 
@@ -9,19 +8,46 @@ public class BastionStructureSize {
     public static final HashMap<String, BPos> STRUCTURE_SIZE = new HashMap<>() {{
         this.put("blocks/air", new BPos(1, 1, 1));
         this.put("bloks/gold_block", new BPos(1, 1, 1));
-        this.put("bridge/bridge_pieces/bridge", new BPos(31, 19, 16));
-        this.put("bridge/connectors/back_bridge_bottom", new BPos(8, 8, 19));
-        this.put("bridge/connectors/back_bridge_top", new BPos(8, 11, 19));
-        this.put("bridge/legs/leg_0", new BPos(3, 22, 3));
-        this.put("bridge/legs/leg_1", new BPos(3, 22, 3));
-        this.put("bridge/ramparts_plates/plate_0", new BPos(2, 19, 16));
-        this.put("bridge/ramparts/rampart_0", new BPos(16, 22, 16));
-        this.put("bridge/ramparts/rampart_1", new BPos(16, 32, 16));
-        this.put("bridge/starting_pieces/entrance", new BPos(17, 32, 32));
-        this.put("bridge/starting_pieces/entrance_base", new BPos(16, 32, 32));
-        this.put("bridge/starting_pieces/entrance_face", new BPos(5, 24, 32));
-        this.put("bridge/walls/wall_base_0", new BPos(16, 24, 16));
-        this.put("bridge/walls/wall_base_1", new BPos(16, 24, 16));
+
+        this.put("mobs/crossbow_piglin", new BPos(1, 3, 1));
+        this.put("mobs/empty", new BPos(1, 1, 1));
+        this.put("mobs/hoglin", new BPos(2, 3, 2));
+        this.put("mobs/melee_piglin", new BPos(1, 3, 1));
+        this.put("mobs/melee_piglin_always", new BPos(1, 3, 1));
+        this.put("mobs/sword_piglin", new BPos(1, 3, 1));
+
+        this.put("units/center_pieces/center_0", new BPos(11, 7, 11));
+        this.put("units/center_pieces/center_1", new BPos(11, 8, 11));
+        this.put("units/center_pieces/center_2", new BPos(11, 8, 11));
+        this.put("units/edges/edge_0", new BPos(12, 7, 8));
+        this.put("units/fillers/stage_0", new BPos(12, 7, 8));
+        this.put("units/pathways/pathway_0", new BPos(3, 2, 2));
+        this.put("units/pathways/pathway_wall_0", new BPos(3, 2, 2));
+        this.put("units/rampart_plates/plate_0", new BPos(5, 19, 16));
+        this.put("units/ramparts/ramparts_0", new BPos(16, 32, 16));
+        this.put("units/ramparts/ramparts_1", new BPos(16, 22, 16));
+        this.put("units/ramparts/ramparts_2", new BPos(16, 12, 16));
+        this.put("units/stages/rot/stage_1_0", new BPos(12, 7, 8));
+        this.put("units/stages/stage_0_0", new BPos(12, 7, 8));
+        this.put("units/stages/stage_0_1", new BPos(12, 7, 8));
+        this.put("units/stages/stage_0_2", new BPos(12, 7, 8));
+        this.put("units/stages/stage_0_3", new BPos(12, 7, 8));
+        this.put("units/stages/stage_1_0", new BPos(12, 7, 8));
+        this.put("units/stages/stage_1_1", new BPos(12, 7, 8));
+        this.put("units/stages/stage_1_2", new BPos(12, 7, 8));
+        this.put("units/stages/stage_1_3", new BPos(12, 7, 8));
+        this.put("units/stages/stage_2_0", new BPos(12, 7, 8));
+        this.put("units/stages/stage_2_1", new BPos(12, 7, 8));
+        this.put("units/stages/stage_3_0", new BPos(12, 3, 8));
+        this.put("units/stages/stage_3_1", new BPos(12, 3, 8));
+        this.put("units/stages/stage_3_2", new BPos(12, 3, 8));
+        this.put("units/stages/stage_3_3", new BPos(12, 3, 8));
+        this.put("units/wall_units/edge_0_large", new BPos(12, 7, 9));
+        this.put("units/wall_units/unit_0", new BPos(12, 7, 8));
+        this.put("units/walls/connected_wall", new BPos(16, 24, 16));
+        this.put("units/walls/wall_base", new BPos(16, 24, 16));
+        this.put("units/air_base", new BPos(46, 24, 46));
+
         this.put("hoglin_stable/connectors/end_post_connector", new BPos(2, 2, 22));
         this.put("hoglin_stable/large_stables/inner_0", new BPos(14, 6, 8));
         this.put("hoglin_stable/large_stables/inner_1", new BPos(14, 6, 8));
@@ -76,12 +102,7 @@ public class BastionStructureSize {
         this.put("hoglin_stable/walls/side_wall_1", new BPos(16, 24, 16));
         this.put("hoglin_stable/walls/wall_base", new BPos(16, 24, 16));
         this.put("hoglin_stable/air_base", new BPos(30, 24, 48));
-        this.put("mobs/crossbow_piglin", new BPos(1, 3, 1));
-        this.put("mobs/empty", new BPos(1, 1, 1));
-        this.put("mobs/hoglin", new BPos(2, 3, 2));
-        this.put("mobs/melee_piglin", new BPos(1, 3, 1));
-        this.put("mobs/melee_piglin_always", new BPos(1, 3, 1));
-        this.put("mobs/sword_piglin", new BPos(1, 3, 1));
+
         this.put("treasure/bases/centers/center_0", new BPos(7, 6, 8));
         this.put("treasure/bases/centers/center_1", new BPos(7, 6, 8));
         this.put("treasure/bases/centers/center_2", new BPos(7, 6, 8));
@@ -143,36 +164,20 @@ public class BastionStructureSize {
         this.put("treasure/walls/entrance_wall", new BPos(2, 17, 24));
         this.put("treasure/walls/lava_wall", new BPos(2, 36, 14));
         this.put("treasure/big_air_full", new BPos(38, 48, 38));
-        this.put("units/center_pieces/center_0", new BPos(11, 7, 11));
-        this.put("units/center_pieces/center_1", new BPos(11, 8, 11));
-        this.put("units/center_pieces/center_2", new BPos(11, 8, 11));
-        this.put("units/edges/edge_0", new BPos(12, 7, 8));
-        this.put("units/fillers/stage_0", new BPos(12, 7, 8));
-        this.put("units/pathways/pathway_0", new BPos(3, 2, 2));
-        this.put("units/pathways/pathway_wall_0", new BPos(3, 2, 2));
-        this.put("units/rampart_plates/plate_0", new BPos(5, 19, 16));
-        this.put("units/ramparts/rampart_0", new BPos(16, 32, 16));
-        this.put("units/ramparts/rampart_1", new BPos(16, 22, 16));
-        this.put("units/ramparts/rampart_2", new BPos(16, 12, 16));
-        this.put("units/stages/rot/stage_1_0", new BPos(12, 7, 8));
-        this.put("units/stages/stage_0_0", new BPos(12, 7, 8));
-        this.put("units/stages/stage_0_1", new BPos(12, 7, 8));
-        this.put("units/stages/stage_0_2", new BPos(12, 7, 8));
-        this.put("units/stages/stage_0_3", new BPos(12, 7, 8));
-        this.put("units/stages/stage_1_0", new BPos(12, 7, 8));
-        this.put("units/stages/stage_1_1", new BPos(12, 7, 8));
-        this.put("units/stages/stage_1_2", new BPos(12, 7, 8));
-        this.put("units/stages/stage_1_3", new BPos(12, 7, 8));
-        this.put("units/stages/stage_2_0", new BPos(12, 7, 8));
-        this.put("units/stages/stage_2_1", new BPos(12, 7, 8));
-        this.put("units/stages/stage_3_0", new BPos(12, 3, 8));
-        this.put("units/stages/stage_3_1", new BPos(12, 3, 8));
-        this.put("units/stages/stage_3_2", new BPos(12, 3, 8));
-        this.put("units/stages/stage_3_3", new BPos(12, 3, 8));
-        this.put("units/wall_units/edge_0_large", new BPos(12, 7, 9));
-        this.put("units/wall_units/unit_0", new BPos(12, 7, 8));
-        this.put("units/walls/connected_wall", new BPos(16, 24, 16));
-        this.put("units/walls/wall_base", new BPos(16, 24, 16));
-        this.put("units/air_base", new BPos(46, 24, 46));
+
+        this.put("bridge/bridge_pieces/bridge", new BPos(31, 19, 16));
+        this.put("bridge/connectors/back_bridge_bottom", new BPos(8, 8, 19));
+        this.put("bridge/connectors/back_bridge_top", new BPos(8, 11, 19));
+        this.put("bridge/legs/leg_0", new BPos(3, 22, 3));
+        this.put("bridge/legs/leg_1", new BPos(3, 22, 3));
+        this.put("bridge/ramparts_plates/plate_0", new BPos(2, 19, 16));
+        this.put("bridge/ramparts/rampart_0", new BPos(16, 22, 16));
+        this.put("bridge/ramparts/rampart_1", new BPos(16, 32, 16));
+        this.put("bridge/starting_pieces/entrance", new BPos(17, 32, 32));
+        this.put("bridge/starting_pieces/entrance_base", new BPos(16, 32, 32));
+        this.put("bridge/starting_pieces/entrance_face", new BPos(5, 24, 32));
+        this.put("bridge/walls/wall_base_0", new BPos(16, 24, 16));
+        this.put("bridge/walls/wall_base_1", new BPos(16, 24, 16));
+
     }};
 }
