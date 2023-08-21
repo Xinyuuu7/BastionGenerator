@@ -6,14 +6,12 @@ import java.util.Deque;
 import java.util.LinkedList;
 import java.util.List;
 
-import com.seedfinding.mccore.block.Block;
 import com.seedfinding.mccore.rand.ChunkRand;
 import com.seedfinding.mccore.util.block.BlockBox;
 import com.seedfinding.mccore.util.block.BlockDirection;
 import com.seedfinding.mccore.util.block.BlockMirror;
 import com.seedfinding.mccore.util.block.BlockRotation;
 import com.seedfinding.mccore.util.data.Pair;
-import com.seedfinding.mccore.util.data.Quad;
 import com.seedfinding.mccore.util.data.Triplet;
 import com.seedfinding.mccore.util.pos.BPos;
 import com.seedfinding.mccore.util.pos.CPos;
@@ -21,11 +19,12 @@ import com.seedfinding.mccore.version.MCVersion;
 
 import BastionGenerator.enumType.BastionType;
 import BastionGenerator.enumType.PoolType;
+import BastionGenerator.reecriture.VoxelShape;
 import BastionGenerator.reecriture.BastionPools.BastionStructureSize;
-import kludwisz.util.VoxelShape;
+import BastionGenerator.reecriture.BastionPools.JigsawBlock;
 
 public class BastionGenerator {
-	public List<Piece> pieces;
+	private List<Piece> pieces;
     private static final int MAX_DIST = 80; // max distance from start piece anchor
     private BastionType type;
 
@@ -38,9 +37,6 @@ public class BastionGenerator {
         // choose a random bastion type and starting pool
         this.type = BastionType.getRandom(rand);
         JigSawPool startPool = new JigSawPool(type.getStartTemplates());
-        
-        // FIXME temporary, remove when remaining jigsaws are added
-        if (this.type != BastionType.HOUSING) return false; 
 
         // choose random starting template and rotation
         BlockRotation rotation = BlockRotation.getRandom(rand);
@@ -109,33 +105,17 @@ public class BastionGenerator {
         }
 
         public List<BlockJigsawInfo> getShuffledJigsawBlocks(BPos offset, BastionType bastionType, ChunkRand rand) {
-            List<Pair<Quad<PoolType, Pair<String,String>, Pair<BlockDirection,BlockDirection>, Block>, BPos>> blocks = bastionType.getJigsawBlocks().get(this.name);
+        	// System.out.println(this.name);
+            List<JigsawBlock> blocks = bastionType.getJigsawBlocks().get(this.name);
             List<BlockJigsawInfo> list = new ArrayList<>(blocks.size());
             
-            for (Pair<Quad<PoolType, Pair<String,String>, Pair<BlockDirection, BlockDirection>, Block>, BPos> b : blocks) {
+            for (JigsawBlock b : blocks) {
 
-                BlockJigsawInfo blockJigsawInfo = new BlockJigsawInfo(b.getFirst()
-                        , rotation.rotate(b.getSecond(), new BPos(0,0,0)).add(offset), rotation );
+                BlockJigsawInfo blockJigsawInfo = new BlockJigsawInfo(b, rotation.rotate(b.relativePos, new BPos(0,0,0)).add(offset), rotation );
                 list.add(blockJigsawInfo);
             }
             rand.shuffle(list);
             return list;
-        }
-
-        public static BPos getTransformedPos(BPos targetPos, BlockRotation rotationIn) {
-            int i = targetPos.getX();
-            int j = targetPos.getY();
-            int k = targetPos.getZ();
-            switch(rotationIn) {
-                case COUNTERCLOCKWISE_90:
-                    return new BPos(k,j, -i);
-                case CLOCKWISE_90:
-                    return new BPos(-k,j, +i);
-                case CLOCKWISE_180:
-                    return new BPos(-i, j, -k);
-                default:
-                    return targetPos;
-            }
         }
         
         public void setVoxelShape(VoxelShape mutableobject1) {
@@ -147,10 +127,10 @@ public class BastionGenerator {
     }
 
     public static class BlockJigsawInfo {
-        Quad<PoolType, Pair<String,String>, Pair<BlockDirection,BlockDirection>, Block> nbt;
+    	JigsawBlock nbt;
         BPos pos;
         BlockRotation rotation;
-        public BlockJigsawInfo(Quad<PoolType, Pair<String,String>, Pair<BlockDirection,BlockDirection>, Block> nbt, BPos pos, BlockRotation rotation) {
+        public BlockJigsawInfo(JigsawBlock nbt, BPos pos, BlockRotation rotation) {
             // nbt is stored as pool,(name,targetname),orientation,final_state
             this.nbt = nbt;
             this.pos = pos;
@@ -158,7 +138,11 @@ public class BastionGenerator {
         }
 
         public BlockDirection getFront() {
-            return rotation.rotate(this.nbt.getThird().getFirst());
+            return rotation.rotate(this.nbt.direction1);
+        }
+        
+        public BlockDirection getTop() {
+            return rotation.rotate(this.nbt.direction2);
         }
         
         public BlockDirection getOpposite(BlockDirection b){
@@ -182,7 +166,8 @@ public class BastionGenerator {
         public boolean canAttach15(BlockJigsawInfo blockJigsawInfo2, BlockDirection direction) { //1.15 version is faster and seems the same
 
             return direction == this.getOpposite(blockJigsawInfo2.getFront())
-                    && this.nbt.getSecond().getSecond().equals(blockJigsawInfo2.nbt.getSecond().getFirst());
+                    && this.nbt.targetName.equals(blockJigsawInfo2.nbt.name)
+                    && (this.nbt.jointType.isRollable() || this.getTop().equals(blockJigsawInfo2.getTop()));
 
         }
     }
@@ -216,7 +201,7 @@ public class BastionGenerator {
                         blockPos.getZ() + blockDirection.getVector().getZ());
                 int y = blockPos.getY() - minY;
                 
-                Triplet<PoolType, List<Pair<String, Integer>>, BastionGenerator.PlacementBehaviour> pool = this.bastionType.getPool().get(blockJigsawInfo.nbt.getFirst());
+                Triplet<PoolType, List<Pair<String, Integer>>, BastionGenerator.PlacementBehaviour> pool = this.bastionType.getPool().get(blockJigsawInfo.nbt.poolType);
                 
                 if (pool != null && pool.getSecond().size() != 0) {
                     PoolType fallbackLocation = pool.getFirst();
@@ -248,7 +233,7 @@ public class BastionGenerator {
                         }
                         LinkedList<String> listtmp = jigSawPool2.getTemplates();
                         if(listtmp.size() != 0) {
-                        	rand.shuffle(list);
+                        	rand.shuffle(listtmp);
                         	rand.advance(1);
                         }
                         list.addAll(listtmp);
@@ -270,14 +255,14 @@ public class BastionGenerator {
                                 list1 = piece1.getShuffledJigsawBlocks(BPos.ORIGIN, this.bastionType, rand);
                                 
                                 // bastion doesnt use expansion hack
-                                int i1 = 0;
+                                // int i1 = 0;
 
                                 BlockDirection direction = blockJigsawInfo.getFront();
 
                                 // Loop to see if we can attach
                                 for (BlockJigsawInfo blockJigsawInfo2 : list1) {
                                     if (blockJigsawInfo.canAttach15(blockJigsawInfo2,direction)) {
-                                    	System.out.println("can attach");
+                                    	//System.out.println("can attach");
                                         
                                         BPos blockPos3 = blockJigsawInfo2.pos;
                                         
@@ -364,5 +349,13 @@ public class BastionGenerator {
     public enum PlacementBehaviour {
         RIGID,
         TERRAIN_MATCHING,
+    }
+    
+    public List<Piece> getPieces() {
+    	return this.pieces;
+    }
+    
+    public BastionType getType() {
+    	return this.type;
     }
 }

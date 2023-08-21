@@ -12,28 +12,28 @@ import java.util.List;
 
 public class MobsJigsawBlocks {
     public static final HashMap<String, List<JigsawBlock>> JIGSAW_BLOCKS = new HashMap<>() {{
-        this.put("jigsaws/air", Collections.singletonList(
+        this.put("blocks/air", Collections.singletonList(
                 new JigsawBlock(PoolType.EMPTY, JointType.ALIGNED, "block_connector", "empty", BlockDirection.DOWN, BlockDirection.WEST, new BPos(0,0,0))
         ));
-        this.put("jigsaws/crossbow_piglin", Collections.singletonList(
+        this.put("blocks/gold", Collections.singletonList(
+                new JigsawBlock(PoolType.EMPTY, JointType.ALIGNED, "block_connector", "empty", BlockDirection.DOWN, BlockDirection.WEST, new BPos(0,0,0))
+        ));
+        this.put("mobs/crossbow_piglin", Collections.singletonList(
                 new JigsawBlock(PoolType.EMPTY, JointType.ROLLABLE, "mob_connector", "empty", BlockDirection.DOWN, BlockDirection.EAST, new BPos(0,0,0))
         ));
-        this.put("jigsaws/empty", Collections.singletonList(
+        this.put("mobs/empty", Collections.singletonList(
                 new JigsawBlock(PoolType.EMPTY, JointType.ROLLABLE, "mob_connector", "empty", BlockDirection.DOWN, BlockDirection.NORTH, new BPos(0,0,0))
         ));
-        this.put("jigsaws/gold", Collections.singletonList(
-                new JigsawBlock(PoolType.EMPTY, JointType.ALIGNED, "block_connector", "empty", BlockDirection.DOWN, BlockDirection.WEST, new BPos(0,0,0))
-        ));
-        this.put("jigsaws/hoglin", Collections.singletonList(
+        this.put("mobs/hoglin", Collections.singletonList(
                 new JigsawBlock(PoolType.EMPTY, JointType.ROLLABLE, "mob_connector", "empty", BlockDirection.DOWN, BlockDirection.NORTH, new BPos(0,0,1))
         ));
-        this.put("jigsaws/melee_piglin", Collections.singletonList(
+        this.put("mobs/melee_piglin", Collections.singletonList(
                 new JigsawBlock(PoolType.EMPTY, JointType.ROLLABLE, "mob_connector", "empty", BlockDirection.DOWN, BlockDirection.WEST, new BPos(0,0,0))
         ));
-        this.put("jigsaws/melee_piglin_always", Collections.singletonList(
+        this.put("mobs/melee_piglin_always", Collections.singletonList(
                 new JigsawBlock(PoolType.EMPTY, JointType.ROLLABLE, "melee_connector", "empty", BlockDirection.DOWN, BlockDirection.WEST, new BPos(0,0,0))
         ));
-        this.put("jigsaws/sword_piglin", Collections.singletonList(
+        this.put("mobs/sword_piglin", Collections.singletonList(
                 new JigsawBlock(PoolType.EMPTY, JointType.ROLLABLE, "mob_connector", "empty", BlockDirection.DOWN, BlockDirection.WEST, new BPos(0,0,0))
         ));
     }};

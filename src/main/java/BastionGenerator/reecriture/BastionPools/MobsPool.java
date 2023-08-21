@@ -16,11 +16,11 @@ public class MobsPool {
                 new Pair<>("mobs/melee_piglin",1),
                 new Pair<>("mobs/sword_piglin",4),
                 new Pair<>("mobs/crossbow_piglin",4),
-                new Pair<>("empty",1)
+                new Pair<>("mobs/empty",1)
         ),BastionGenerator.PlacementBehaviour.RIGID));
         put(PoolType.HOGLIN,new Triplet<>(PoolType.EMPTY, Arrays.asList(
                 new Pair<>("mobs/hoglin",2),
-                new Pair<>("empty",1)
+                new Pair<>("mobs/empty",1)
         ),BastionGenerator.PlacementBehaviour.RIGID));
         put(PoolType.GOLD,new Triplet<>(PoolType.EMPTY, Arrays.asList(
                 new Pair<>("blocks/air",3),
