@@ -5,7 +5,9 @@ import com.seedfinding.mccore.util.pos.BPos;
 import java.util.HashMap;
 
 public class BastionStructureSize {
-    public static final HashMap<String, BPos> STRUCTURE_SIZE = new HashMap<>() {{
+    public static final HashMap<String, BPos> STRUCTURE_SIZE = new HashMap<>() {
+		private static final long serialVersionUID = -4796641227045773728L;
+	{
         this.put("blocks/air", new BPos(1, 1, 1));
         this.put("blocks/gold_block", new BPos(1, 1, 1));
 

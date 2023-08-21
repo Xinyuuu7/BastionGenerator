@@ -11,7 +11,9 @@ import java.util.HashMap;
 import java.util.List;
 
 public class StableJigsawBlocks {
-    public static final HashMap<String, List<JigsawBlock>> JIGSAW_BLOCKS = new HashMap<>() {{
+    public static final HashMap<String, List<JigsawBlock>> JIGSAW_BLOCKS = new HashMap<>() {
+		private static final long serialVersionUID = 1967667967192153613L;
+	{
         this.putAll(MobsJigsawBlocks.JIGSAW_BLOCKS);
         this.put("hoglin_stable/air_base", Arrays.asList(
                 new JigsawBlock(PoolType.STABLE_STARTING_PIECES, JointType.ALIGNED, "empty", "starting_stairs_connector", BlockDirection.NORTH, BlockDirection.UP, new BPos(0,0,24)),

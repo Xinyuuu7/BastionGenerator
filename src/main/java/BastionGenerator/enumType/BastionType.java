@@ -6,9 +6,7 @@ import java.util.List;
 
 import com.seedfinding.mccore.rand.ChunkRand;
 import com.seedfinding.mccore.util.data.Pair;
-import com.seedfinding.mccore.util.data.Triplet;
 
-import BastionGenerator.properties.BastionGenerator;
 import BastionGenerator.reecriture.BastionPools.BridgeJigsawBlocks;
 import BastionGenerator.reecriture.BastionPools.BridgePool;
 import BastionGenerator.reecriture.BastionPools.HousingJigsawBlocks;
@@ -43,7 +41,7 @@ public enum BastionType {
 		return null;
 	}
 	
-	public EnumMap<PoolType, Triplet<PoolType, List<Pair<String, Integer>>, BastionGenerator.PlacementBehaviour>> getPool() {
+	public EnumMap< PoolType, Pair<PoolType, List<Pair<String, Integer>>> > getPool() {
 		switch(this) {
 		case HOUSING:
 			return HousingPool.BASTION_POOLS;

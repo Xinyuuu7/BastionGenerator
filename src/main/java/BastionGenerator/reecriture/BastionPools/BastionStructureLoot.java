@@ -9,7 +9,9 @@ import java.util.List;
 
 public class BastionStructureLoot {
 
-    public static final HashMap<String, List<LootTable>> STRUCTURE_LOOT = new HashMap<>() {{
+    public static final HashMap<String, List<LootTable>> STRUCTURE_LOOT = new HashMap<>() {
+    	private static final long serialVersionUID = 2335512441609093531L;
+	{
         this.put("blocks/air", List.of());
         this.put("bloks/gold_block", List.of());
 
@@ -185,7 +187,9 @@ public class BastionStructureLoot {
 
     }};
 
-    public static final HashMap<String, List<BPos>> STRUCTURE_LOOT_OFFSETS = new HashMap<>() {{
+    public static final HashMap<String, List<BPos>> STRUCTURE_LOOT_OFFSETS = new HashMap<>() {
+    	private static final long serialVersionUID = 5187898898579028148L;
+	{
         this.put("blocks/air", List.of());
         this.put("bloks/gold_block", List.of());
 

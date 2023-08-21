@@ -12,7 +12,6 @@ import com.seedfinding.mccore.util.block.BlockDirection;
 import com.seedfinding.mccore.util.block.BlockMirror;
 import com.seedfinding.mccore.util.block.BlockRotation;
 import com.seedfinding.mccore.util.data.Pair;
-import com.seedfinding.mccore.util.data.Triplet;
 import com.seedfinding.mccore.util.pos.BPos;
 import com.seedfinding.mccore.util.pos.CPos;
 import com.seedfinding.mccore.version.MCVersion;
@@ -201,11 +200,11 @@ public class BastionGenerator {
                         blockPos.getZ() + blockDirection.getVector().getZ());
                 int y = blockPos.getY() - minY;
                 
-                Triplet<PoolType, List<Pair<String, Integer>>, BastionGenerator.PlacementBehaviour> pool = this.bastionType.getPool().get(blockJigsawInfo.nbt.poolType);
+                Pair< PoolType, List<Pair<String, Integer>> > pool = this.bastionType.getPool().get(blockJigsawInfo.nbt.poolType);
                 
                 if (pool != null && pool.getSecond().size() != 0) {
                     PoolType fallbackLocation = pool.getFirst();
-                    Triplet<PoolType, List<Pair<String, Integer>>, BastionGenerator.PlacementBehaviour > fallbackPool = this.bastionType.getPool().get(fallbackLocation);
+                    Pair< PoolType, List<Pair<String, Integer>> > fallbackPool = this.bastionType.getPool().get(fallbackLocation);
                     
                     if (fallbackPool != null && fallbackPool.getSecond().size() != 0) {
                     	
@@ -346,11 +345,6 @@ public class BastionGenerator {
         }
     }
 
-    public enum PlacementBehaviour {
-        RIGID,
-        TERRAIN_MATCHING,
-    }
-    
     public List<Piece> getPieces() {
     	return this.pieces;
     }
