@@ -8,7 +8,7 @@ public class Main {
 		if (gen.generate(48, 163, -288, new ChunkRand()))
 			System.out.println("generated");
 		
-		for (BastionGenerator.Piece p : gen.pieces) {
+		for (BastionGenerator.Piece p : gen.getPieces()) {
 			System.out.println(p.name);
 			System.out.println("/tp " + p.box.minX + " " + p.box.minY + " " + p.box.minZ);
 			System.out.println("/tp " + p.box.maxX + " " + p.box.maxY + " " + p.box.maxZ + "\n");
