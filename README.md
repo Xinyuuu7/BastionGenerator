@@ -1,5 +1,4 @@
 # BastionGenerator
-UNFINISHED
 
 Simulate the generation of Bastions in Minecraft 1.16.1 (new versions support in the future)
 
