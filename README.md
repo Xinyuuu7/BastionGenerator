@@ -1,9 +1,9 @@
 # BastionGenerator
 
-Simulate the generation of Bastions in Minecraft 1.16.1 (new versions support in the future)
+Simulate the generation of BastionRemnants(all versions)
 
-Thanks for help : De6ris、Kludwisz、Auchor
+Thanks for help: De6ris, Kludwisz, Auchor
 
-Idea provider ： DylanDC14
+Idea provider: DylanDC14
 
-Theoretical support : profotoce
+Theoretical support: profotoce
