@@ -13,7 +13,7 @@ public class BastionStructureLoot {
     	private static final long serialVersionUID = 2335512441609093531L;
 	{
         this.put("blocks/air", List.of());
-        this.put("blocks/gold_block", List.of());
+        this.put("blocks/gold", List.of());
 
         this.put("mobs/crossbow_piglin", List.of());
         this.put("mobs/empty", List.of());
@@ -30,9 +30,9 @@ public class BastionStructureLoot {
         this.put("units/pathways/pathway_0", List.of());
         this.put("units/pathways/pathway_wall_0", List.of());
         this.put("units/rampart_plates/plate_0", List.of());
-        this.put("units/ramparts/rampart_0", List.of(MCLootTables.BASTION_OTHER_CHEST.get(), MCLootTables.BASTION_OTHER_CHEST.get(), MCLootTables.BASTION_OTHER_CHEST.get()));
-        this.put("units/ramparts/rampart_1", List.of(MCLootTables.BASTION_OTHER_CHEST.get()));
-        this.put("units/ramparts/rampart_2", List.of());
+        this.put("units/ramparts/ramparts_0", List.of(MCLootTables.BASTION_OTHER_CHEST.get(), MCLootTables.BASTION_OTHER_CHEST.get(), MCLootTables.BASTION_OTHER_CHEST.get()));
+        this.put("units/ramparts/ramparts_1", List.of(MCLootTables.BASTION_OTHER_CHEST.get()));
+        this.put("units/ramparts/ramparts_2", List.of());
         this.put("units/stages/rot/stage_1_0", List.of());
         this.put("units/stages/stage_0_0", List.of());
         this.put("units/stages/stage_0_1", List.of());
@@ -176,7 +176,7 @@ public class BastionStructureLoot {
         this.put("bridge/connectors/back_bridge_top", List.of());
         this.put("bridge/legs/leg_0", List.of());
         this.put("bridge/legs/leg_1", List.of());
-        this.put("bridge/ramparts_plates/plate_0", List.of());
+        this.put("bridge/rampart_plates/plate_0", List.of());
         this.put("bridge/ramparts/rampart_0", List.of(MCLootTables.BASTION_OTHER_CHEST.get()));
         this.put("bridge/ramparts/rampart_1", List.of(MCLootTables.BASTION_OTHER_CHEST.get(), MCLootTables.BASTION_OTHER_CHEST.get(), MCLootTables.BASTION_OTHER_CHEST.get()));
         this.put("bridge/starting_pieces/entrance", List.of(MCLootTables.BASTION_BRIDGE_CHEST.get()));
@@ -191,7 +191,7 @@ public class BastionStructureLoot {
     	private static final long serialVersionUID = 5187898898579028148L;
 	{
         this.put("blocks/air", List.of());
-        this.put("bloks/gold_block", List.of());
+        this.put("blokcs/gold", List.of());
 
         this.put("mobs/crossbow_piglin", List.of());
         this.put("mobs/empty", List.of());
@@ -208,9 +208,9 @@ public class BastionStructureLoot {
         this.put("units/pathways/pathway_0", List.of());
         this.put("units/pathways/pathway_wall_0", List.of());
         this.put("units/rampart_plates/plate_0", List.of());
-        this.put("units/ramparts/rampart_0", List.of(new BPos(7, 17, 7), new BPos(7, 17, 8), new BPos(7, 17, 12)));
-        this.put("units/ramparts/rampart_1", List.of(new BPos(3, 13, 6)));
-        this.put("units/ramparts/rampart_2", List.of());
+        this.put("units/ramparts/ramparts_0", List.of(new BPos(7, 17, 7), new BPos(7, 17, 8), new BPos(7, 17, 12)));
+        this.put("units/ramparts/ramparts_1", List.of(new BPos(3, 13, 6)));
+        this.put("units/ramparts/ramparts_2", List.of());
         this.put("units/stages/rot/stage_1_0", List.of());
         this.put("units/stages/stage_0_0", List.of());
         this.put("units/stages/stage_0_1", List.of());
@@ -354,7 +354,7 @@ public class BastionStructureLoot {
         this.put("bridge/connectors/back_bridge_top", List.of());
         this.put("bridge/legs/leg_0", List.of());
         this.put("bridge/legs/leg_1", List.of());
-        this.put("bridge/ramparts_plates/plate_0", List.of());
+        this.put("bridge/rampart_plates/plate_0", List.of());
         this.put("bridge/ramparts/rampart_0", List.of(new BPos(3, 13, 7)));
         this.put("bridge/ramparts/rampart_1", List.of(new BPos(7, 17, 7), new BPos(7, 17, 8), new BPos(7, 17, 12)));
         this.put("bridge/starting_pieces/entrance", List.of(new BPos(9, 16, 4)));
