@@ -2,7 +2,10 @@ package BastionGenerator.properties;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Deque;
+import java.util.EnumMap;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -15,33 +18,53 @@ import com.seedfinding.mccore.util.data.Pair;
 import com.seedfinding.mccore.util.pos.BPos;
 import com.seedfinding.mccore.util.pos.CPos;
 import com.seedfinding.mccore.version.MCVersion;
+import com.seedfinding.mccore.version.UnsupportedVersion;
+import com.seedfinding.mcfeature.loot.LootContext;
+import com.seedfinding.mcfeature.loot.LootTable;
+import com.seedfinding.mcfeature.loot.item.ItemStack;
 
 import BastionGenerator.enumType.BastionType;
 import BastionGenerator.enumType.PoolType;
 import BastionGenerator.reecriture.VoxelShape;
+import BastionGenerator.reecriture.BastionPools.BastionStructureLoot;
 import BastionGenerator.reecriture.BastionPools.BastionStructureSize;
+import BastionGenerator.reecriture.BastionPools.BridgePool;
+import BastionGenerator.reecriture.BastionPools.HousingPool;
 import BastionGenerator.reecriture.BastionPools.JigsawBlock;
+import BastionGenerator.reecriture.BastionPools.StablePool;
+import BastionGenerator.reecriture.BastionPools.TreasurePool;
+import BastionGenerator.util.Shuffler;
 
 public class BastionGenerator {
 	private List<Piece> pieces;
     private static final int MAX_DIST = 80; // max distance from start piece anchor
     private BastionType type;
+    private boolean standardisedShuffling;
 
     public BastionGenerator() {}
     
-    public boolean generate(long strcutureSeed, int chunkX, int chunkZ, ChunkRand rand) {
-        pieces = new ArrayList<>();
-        rand.setCarverSeed(strcutureSeed, chunkX, chunkZ, MCVersion.v1_16_1);
+    public boolean generate(long strcutureSeed, int chunkX, int chunkZ, ChunkRand rand, MCVersion version) {
+    	if (version.isOlderThan(MCVersion.v1_16))
+        	throw new UnsupportedVersion(version, " bastions");
+    	
+    	this.pieces = new ArrayList<>();
+        this.standardisedShuffling = version.isNewerOrEqualTo(MCVersion.v1_19);
         
-        // choose a random bastion type and starting pool
-        this.type = BastionType.getRandom(rand);
-        JigSawPool startPool = new JigSawPool(type.getStartTemplates());
-
-        // choose random starting template and rotation
-        BlockRotation rotation = BlockRotation.getRandom(rand);
-        String template = rand.getRandom(startPool.getTemplates());
+        rand.setCarverSeed(strcutureSeed, chunkX, chunkZ, version);
+        
+        BlockRotation rotation;
+        if (version.isNewerOrEqualTo(MCVersion.v1_18)) { // TODO FIXME check if it's not 1.17
+        	rotation = BlockRotation.getRandom(rand);
+        	this.type = BastionType.getRandom(rand);
+        }
+        else {
+            this.type = BastionType.getRandom(rand);
+            rotation = BlockRotation.getRandom(rand);
+            rand.nextInt(1); // choose a "random" start template
+        }
+        
+        String template = TYPE_TO_START.get(this.type);
         BPos size = BastionStructureSize.STRUCTURE_SIZE.get(template);
-
         BPos bPos = new CPos(chunkX, chunkZ).toBlockPos(33);
         BlockBox box = BlockBox.getBoundingBox(bPos, rotation, BPos.ORIGIN, BlockMirror.NONE, size);
         int centerX = (box.minX + box.maxX) / 2;
@@ -50,14 +73,14 @@ public class BastionGenerator {
         int y = bPos.getY() + heightY;
         int centerY = box.minY + 1;
 
-        // create the first piece (always rigid)
+        // create the first piece
         Piece piece = new Piece(template, bPos, box, rotation, 0);
         piece.move(0, y - centerY, 0);
         piece.setBoundsTop(y + 80);
         
-        // create structure max bounding box
+        // create structure bounding box
         BlockBox fullBox = new BlockBox(centerX - MAX_DIST, y - MAX_DIST, centerZ - MAX_DIST, centerX + MAX_DIST + 1, y + MAX_DIST + 1, centerZ + MAX_DIST + 1);
-        Assembler assembler = new Assembler(6, this.pieces, this.type, y);
+        Assembler assembler = new Assembler(6, this.pieces, this.type, y, this.standardisedShuffling);
         assembler.pieces.add(piece);
         VoxelShape a = new VoxelShape(fullBox);
         a.fullBoxes.add(new BlockBox(box.minX,box.minY,box.minZ,box.maxX+1,box.maxY+1,box.maxZ+1));
@@ -148,10 +171,10 @@ public class BastionGenerator {
             List<BlockJigsawInfo> list = new ArrayList<>(blocks.size());
             
             for (JigsawBlock b : blocks) {
-
                 BlockJigsawInfo blockJigsawInfo = new BlockJigsawInfo(b, rotation.rotate(b.relativePos, new BPos(0,0,0)).add(offset), rotation );
                 list.add(blockJigsawInfo);
             }
+            
             rand.shuffle(list);
             return list;
         }
@@ -217,25 +240,25 @@ public class BastionGenerator {
                     throw new IllegalStateException("Unable to get facing of " );
             }
         }
-        public boolean canAttach15(BlockJigsawInfo blockJigsawInfo2, BlockDirection direction) { //1.15 version is faster and seems the same
-
+        public boolean canAttach(BlockJigsawInfo blockJigsawInfo2, BlockDirection direction) {
             return direction == this.getOpposite(blockJigsawInfo2.getFront())
                     && this.nbt.targetName.equals(blockJigsawInfo2.nbt.name)
                     && (this.nbt.jointType.isRollable() || this.getTop().equals(blockJigsawInfo2.getTop()));
-
         }
     }
 
     public static class Assembler {
         int maxDepth;
         BastionType bastionType;
+        boolean standardisedShuffling;
         List<Piece> pieces;
 
         private final Deque<Piece> placing = new ArrayDeque<>();
-        Assembler(int maxDepth, List<Piece> pieces, BastionType type, int heightY) {
+        Assembler(int maxDepth, List<Piece> pieces, BastionType type, int heightY, boolean standardisedShuffling) {
             this.maxDepth = maxDepth;
             this.pieces = pieces;
             this.bastionType = type;
+            this.standardisedShuffling = standardisedShuffling;
         }
 
         public void tryPlacing(Piece piece, ChunkRand rand) {
@@ -246,7 +269,6 @@ public class BastionGenerator {
             int minY = box.minY;
             
             label139:
-
             for (BlockJigsawInfo blockJigsawInfo : piece.getShuffledJigsawBlocks(pos, this.bastionType, rand)) {
                 BlockDirection blockDirection = blockJigsawInfo.getFront();
                 BPos blockPos = blockJigsawInfo.pos;
@@ -276,19 +298,23 @@ public class BastionGenerator {
                         } else {
                             mutableobject1 = piece.getVoxelShape();
                         }
-                        LinkedList<String> list = new LinkedList<>();
                         
+                        
+                        LinkedList<String> list = new LinkedList<>();
                         if (depth != this.maxDepth) {
                             list = jigSawPool1.getTemplates();
                             if(list.size() != 0) {
-                            	rand.shuffle(list);
-                            	rand.advance(1);
+	                            rand.shuffle(list);
+	                            if (!this.standardisedShuffling) 	// older (pre 1.19) versions use a modified shuffling
+	                            	rand.advance(1);				// algo here for some reason, hence the call skip
                             }
                         }
+                        
                         LinkedList<String> listtmp = jigSawPool2.getTemplates();
                         if(listtmp.size() != 0) {
-                        	rand.shuffle(listtmp);
-                        	rand.advance(1);
+                            rand.shuffle(listtmp);
+                            if (!this.standardisedShuffling)
+                            	rand.advance(1);
                         }
                         list.addAll(listtmp);
                         
@@ -315,11 +341,10 @@ public class BastionGenerator {
 
                                 // Loop to see if we can attach
                                 for (BlockJigsawInfo blockJigsawInfo2 : list1) {
-                                    if (blockJigsawInfo.canAttach15(blockJigsawInfo2,direction)) {
+                                    if (blockJigsawInfo.canAttach(blockJigsawInfo2,direction)) {
                                     	//System.out.println("can attach");
                                         
                                         BPos blockPos3 = blockJigsawInfo2.pos;
-                                        
                                         BPos blockPos4 = new BPos(relativeBlockPos.getX() - blockPos3.getX(),
                                                 relativeBlockPos.getY() - blockPos3.getY(), relativeBlockPos.getZ() - blockPos3.getZ());
                                         
@@ -399,6 +424,13 @@ public class BastionGenerator {
             return templates;
         }
     }
+    
+    public static final EnumMap<BastionType, String> TYPE_TO_START = new EnumMap<>(BastionType.class) {{
+    	this.put(BastionType.HOUSING, "units/air_base");
+    	this.put(BastionType.STABLES, "hoglin_stable/air_base");
+    	this.put(BastionType.TREASURE, "treasure/big_air_full");
+    	this.put(BastionType.BRIDGE, "bridge/starting_pieces/entrance_base");
+    }};
 
     public List<Piece> getPieces() {
     	return this.pieces;
