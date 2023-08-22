@@ -70,8 +70,47 @@ public class BastionGenerator {
         }
         
         return true;
-    }
+    }    
 
+    public List<Pair<BPos, List<ItemStack>>> generateLoot(long worldSeed, ChunkRand rand) {
+        List<Pair<BPos, List<ItemStack>>> result = new ArrayList<>();
+        List<Pair<BPos, LootTable>> chestsPos = new ArrayList<>();
+        for (Piece p : pieces) {
+            List<LootTable> tables = BastionStructureLoot.STRUCTURE_LOOT.get(p.name);
+            int size = tables.size();
+            if (size != 0) {
+                List<BPos> pos = new ArrayList<>();
+                for (BPos offset : BastionStructureLoot.STRUCTURE_LOOT_OFFSETS.get(p.name)) {
+                    pos.add(p.pos.add(p.getTransformedPos(offset,p.rotation)));
+                }
+                for (int i = 0 ; i < size ; i++) {
+                    chestsPos.add(new Pair<>(pos.get(i),tables.get(i)));
+                }
+            }
+        }
+        List<CPos> chunkPos = new ArrayList<>();
+        for (Pair<BPos,LootTable> chest : chestsPos) {
+            CPos chunk = chest.getFirst().toChunkPos();
+            rand.setDecoratorSeed(worldSeed, chunk.getX() * 16, chunk.getZ() * 16, 40012, MCVersion.v1_16_1);
+            if (chunkPos.contains(chunk)) {
+                int num = Collections.frequency(chunkPos,chunk);
+                for (int i = 0 ; i < num ; i++) {
+                    rand.nextLong();
+                }
+                LootContext context = new LootContext(rand.nextLong(), MCVersion.v1_16_1);
+                List<ItemStack> items = chest.getSecond().generate(context);
+                result.add(new Pair<>(chest.getFirst(),items));
+                chunkPos.add(chunk);
+                continue;
+            }
+            LootContext context = new LootContext(rand.nextLong(), MCVersion.v1_16_1);
+            List<ItemStack> items = chest.getSecond().generate(context);
+            result.add(new Pair<>(chest.getFirst(),items));
+            chunkPos.add(chunk);
+        }
+        return result;
+    }
+	
     static public class Piece {
         String name;
         public BPos pos;
@@ -122,6 +161,22 @@ public class BastionGenerator {
         }
         public VoxelShape getVoxelShape() {
             return this.voxelShape;
+        }
+
+	public  BPos getTransformedPos(BPos targetPos, BlockRotation rotationIn) {
+            int i = targetPos.getX();
+            int j = targetPos.getY();
+            int k = targetPos.getZ();
+            switch(rotationIn) {
+                case COUNTERCLOCKWISE_90:
+                    return new BPos(k,j, -i);
+                case CLOCKWISE_90:
+                    return new BPos(-k,j, +i);
+                case CLOCKWISE_180:
+                    return new BPos(-i, j, -k);
+                default:
+                    return targetPos;
+            }
         }
     }
 
