@@ -13,7 +13,7 @@ public class BastionStructureLoot {
     	private static final long serialVersionUID = 2335512441609093531L;
 	{
         this.put("blocks/air", List.of());
-        this.put("bloks/gold_block", List.of());
+        this.put("blocks/gold_block", List.of());
 
         this.put("mobs/crossbow_piglin", List.of());
         this.put("mobs/empty", List.of());
