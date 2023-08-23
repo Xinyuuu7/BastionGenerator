@@ -33,6 +33,7 @@ public class BastionGenerator {
     private List<Piece> pieces;
     private static final int MAX_DIST = 80; // max distance from start piece anchor
     private BastionType type;
+    private MCVersion Version;
 
     public BastionGenerator() {}
 
@@ -41,6 +42,7 @@ public class BastionGenerator {
             throw new UnsupportedVersion(version, " bastions");
 
         this.pieces = new ArrayList<>();
+        this.Version = version;
         boolean standardisedShuffling = version.isNewerOrEqualTo(MCVersion.v1_19);
 
         rand.setCarverSeed(strcutureSeed, chunkX, chunkZ, version);
@@ -88,15 +90,15 @@ public class BastionGenerator {
         return true;
     }
 
-    public List<Pair<BPos, List<ItemStack>>> generateLoot(long worldSeed, ChunkRand rand, MCVersion version) {
-        if (version.isNewerOrEqualTo(MCVersion.v1_18)) {
-            return generateLootForNewVersion(worldSeed,rand,version);
+    public List<Pair<BPos, List<ItemStack>>> generateLoot(long worldSeed, ChunkRand rand) {
+        if (Version.isNewerOrEqualTo(MCVersion.v1_18)) {
+            return generateLootForNewVersion(worldSeed,rand,Version);
         }
         List<Pair<BPos, List<ItemStack>>> result = new ArrayList<>();
         List<Pair<BPos, LootTable>> chestsPos = new ArrayList<>();
         for (Piece p : pieces) {
             List<LootTable> tables = new ArrayList<>();
-            if (version.isNewerOrEqualTo(MCVersion.v1_16_2)) {
+            if (Version.isNewerOrEqualTo(MCVersion.v1_16_2)) {
                 tables = BastionStructureLoot.STRUCTURE_LOOT_NEW_VERSIONS.get(p.name);
             }
             else {
@@ -116,19 +118,19 @@ public class BastionGenerator {
         List<CPos> chunkPos = new ArrayList<>();
         for (Pair<BPos,LootTable> chest : chestsPos) {
             CPos chunk = chest.getFirst().toChunkPos();
-            rand.setDecoratorSeed(worldSeed, chunk.getX() * 16, chunk.getZ() * 16, 40012, version);
+            rand.setDecoratorSeed(worldSeed, chunk.getX() * 16, chunk.getZ() * 16, 40012, Version);
             if (chunkPos.contains(chunk)) {
                 int num = Collections.frequency(chunkPos,chunk);
                 for (int i = 0 ; i < num ; i++) {
                     rand.nextLong();
                 }
-                LootContext context = new LootContext(rand.nextLong(), version);
+                LootContext context = new LootContext(rand.nextLong(), Version);
                 List<ItemStack> items = chest.getSecond().generate(context);
                 result.add(new Pair<>(chest.getFirst(),items));
                 chunkPos.add(chunk);
                 continue;
             }
-            LootContext context = new LootContext(rand.nextLong(), version);
+            LootContext context = new LootContext(rand.nextLong(), Version);
             List<ItemStack> items = chest.getSecond().generate(context);
             result.add(new Pair<>(chest.getFirst(),items));
             chunkPos.add(chunk);
