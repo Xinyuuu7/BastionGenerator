@@ -35,6 +35,7 @@ public class BastionGenerator {
     private static final int MAX_DIST = 80; // max distance from start piece anchor
     private BastionType type;
     private MCVersion version;
+    private long structureSeed;
 
     public BastionGenerator(MCVersion version) {
         this.version = version;
@@ -42,19 +43,19 @@ public class BastionGenerator {
 
     public boolean generate(long worldSeed,CPos bastionPos) {
         long structureSeed = WorldSeed.toStructureSeed(worldSeed);
+        this.structureSeed = structureSeed;
         return generate(structureSeed,bastionPos.getX(),bastionPos.getZ(),new ChunkRand());
     }
 
 
-    public boolean generate(long strcutureSeed, int chunkX, int chunkZ, ChunkRand rand) {
+    public boolean generate(long structureSeed, int chunkX, int chunkZ, ChunkRand rand) {
         if (version.isOlderThan(MCVersion.v1_16))
             throw new UnsupportedVersion(version, " bastions");
 
         this.pieces = new ArrayList<>();
-        this.version = version;
         boolean standardisedShuffling = version.isNewerOrEqualTo(MCVersion.v1_19);
 
-        rand.setCarverSeed(strcutureSeed, chunkX, chunkZ, version);
+        rand.setCarverSeed(structureSeed, chunkX, chunkZ, version);
 
         BlockRotation rotation;
         if (version.isNewerOrEqualTo(MCVersion.v1_16_2)) {
@@ -99,9 +100,10 @@ public class BastionGenerator {
         return true;
     }
 
-    public List<Pair<BPos, List<ItemStack>>> generateLoot(long worldSeed, ChunkRand rand) {
+    public List<Pair<BPos, List<ItemStack>>> generateLoot() {
+        ChunkRand rand = new ChunkRand();
         if (version.isNewerOrEqualTo(MCVersion.v1_18)) {
-            return generateLootForNewVersion(worldSeed,rand,version);
+            return generateLootForNewVersion();
         }
         List<Pair<BPos, List<ItemStack>>> result = new ArrayList<>();
         List<Pair<BPos, LootTable>> chestsPos = new ArrayList<>();
@@ -127,7 +129,7 @@ public class BastionGenerator {
         List<CPos> chunkPos = new ArrayList<>();
         for (Pair<BPos,LootTable> chest : chestsPos) {
             CPos chunk = chest.getFirst().toChunkPos();
-            rand.setDecoratorSeed(worldSeed, chunk.getX() * 16, chunk.getZ() * 16, 40012, version);
+            rand.setDecoratorSeed(structureSeed, chunk.getX() * 16, chunk.getZ() * 16, 40012, version);
             if (chunkPos.contains(chunk)) {
                 int num = Collections.frequency(chunkPos,chunk);
                 for (int i = 0 ; i < num ; i++) {
@@ -147,7 +149,7 @@ public class BastionGenerator {
         return result;
     }
 
-    List<Pair<BPos, List<ItemStack>>> generateLootForNewVersion(long worldSeed, ChunkRand rand, MCVersion version) {
+    List<Pair<BPos, List<ItemStack>>> generateLootForNewVersion() {
 
         return null;
     }
