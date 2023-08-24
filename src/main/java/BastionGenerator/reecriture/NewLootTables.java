@@ -82,7 +82,7 @@ public class NewLootTables {
                     new ItemEntry(Items.IRON_BLOCK, 2),
                     new ItemEntry(Items.GOLDEN_BOOTS).apply(version -> new EnchantRandomlyFunction(Items.GOLDEN_BOOTS, true, false).apply(version)),
                     new ItemEntry(Items.GOLDEN_AXE).apply(version -> new EnchantRandomlyFunction(Items.GOLDEN_AXE).apply(version)),
-                    new ItemEntry(Items.GOLD_BLOCK),
+                    new ItemEntry(Items.GOLD_BLOCK, 2),
                     new ItemEntry(Items.CROSSBOW),
                     new ItemEntry(Items.GOLD_INGOT, 2).apply(version -> SetCountFunction.uniform(1.0F, 6.0F)),
                     new ItemEntry(Items.IRON_INGOT, 2).apply(version -> SetCountFunction.uniform(1.0F, 6.0F)),

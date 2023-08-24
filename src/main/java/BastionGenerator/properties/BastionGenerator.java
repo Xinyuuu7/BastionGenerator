@@ -36,15 +36,17 @@ public class BastionGenerator {
     private BastionType type;
     private MCVersion version;
 
-    public BastionGenerator() {}
+    public BastionGenerator(MCVersion version) {
+        this.version = version;
+    }
 
-    public boolean generate(long worldSeed,CPos bastionPos,MCVersion version) {
+    public boolean generate(long worldSeed,CPos bastionPos) {
         long structureSeed = WorldSeed.toStructureSeed(worldSeed);
-        return generate(structureSeed,bastionPos.getX(),bastionPos.getZ(),new ChunkRand(),version);
+        return generate(structureSeed,bastionPos.getX(),bastionPos.getZ(),new ChunkRand());
     }
 
 
-    public boolean generate(long strcutureSeed, int chunkX, int chunkZ, ChunkRand rand, MCVersion version) {
+    public boolean generate(long strcutureSeed, int chunkX, int chunkZ, ChunkRand rand) {
         if (version.isOlderThan(MCVersion.v1_16))
             throw new UnsupportedVersion(version, " bastions");
 
