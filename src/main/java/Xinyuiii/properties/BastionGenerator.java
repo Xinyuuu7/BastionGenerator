@@ -130,6 +130,12 @@ public class BastionGenerator {
             for (Pair<BPos,LootTable> chest : chestsPos) {
                 CPos chunk = chest.getFirst().toChunkPos();
                 long populationSeed = rand.getPopulationSeed(worldSeed,chunk.getX()<<4,chunk.getZ()<<4);
+                if (version.isNewerOrEqualTo(MCVersion.v1_20)) {
+                    rand.setDecoratorSeed(populationSeed,0,4);
+                }
+                else {
+                    rand.setDecoratorSeed(populationSeed,12,4);
+                }
                 rand.setDecoratorSeed(populationSeed,12,4);
                 if (chunkPos.contains(chunk)) {
                     int num = Collections.frequency(chunkPos,chunk);
