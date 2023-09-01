@@ -1,8 +1,6 @@
 # BastionGenerator
 
-Simulate the generation of BastionRemnants
-
-(tested in 1.16.1, 1.16.5, 1.17.1)
+Simulate the generation of BastionRemnants for all versions
 
 Thanks for help: De6ris, Kludwisz, Auchor
 
