@@ -33,7 +33,8 @@ public class Main {
                 for (ItemStack item : chest.getSecond()) {
                     System.out.println(item.getCount() + " " + item.getItem().getEnchantments() + " " + item.getItem().getName());
                 }
-            }return;
+            }
+            return;
         }
     }
 }
