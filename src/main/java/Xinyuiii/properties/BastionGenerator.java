@@ -136,7 +136,6 @@ public class BastionGenerator {
                 else {
                     rand.setDecoratorSeed(populationSeed,12,4);
                 }
-                rand.setDecoratorSeed(populationSeed,12,4);
                 if (chunkPos.contains(chunk)) {
                     int num = Collections.frequency(chunkPos,chunk);
                     for (int i = 0 ; i < num ; i++) {
