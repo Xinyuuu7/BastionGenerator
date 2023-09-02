@@ -372,11 +372,11 @@ public class NewLootTables {
                     new ItemEntry(Items.DIAMOND_HELMET, 6).apply(version -> new ApplyDamageFunction(), version -> new EnchantRandomlyFunction(Items.DIAMOND_HELMET).apply(version)),
                     new ItemEntry(Items.DIAMOND_LEGGINGS, 6).apply(version -> new ApplyDamageFunction(), version -> new EnchantRandomlyFunction(Items.DIAMOND_LEGGINGS).apply(version)),
                     new ItemEntry(Items.DIAMOND_BOOTS, 6).apply(version -> new ApplyDamageFunction(), version -> new EnchantRandomlyFunction(Items.DIAMOND_BOOTS).apply(version)),
-                    new ItemEntry(Items.DIAMOND_SWORD, 6).apply(version -> new ApplyDamageFunction()),
-                    new ItemEntry(Items.DIAMOND_CHESTPLATE, 5).apply(version -> new ApplyDamageFunction()),
-                    new ItemEntry(Items.DIAMOND_HELMET, 5).apply(version -> new ApplyDamageFunction()),
-                    new ItemEntry(Items.DIAMOND_BOOTS, 5).apply(version -> new ApplyDamageFunction()),
-                    new ItemEntry(Items.DIAMOND_LEGGINGS, 5).apply(version -> new ApplyDamageFunction()),
+                    new ItemEntry(Items.DIAMOND_SWORD, 6),
+                    new ItemEntry(Items.DIAMOND_CHESTPLATE, 5),
+                    new ItemEntry(Items.DIAMOND_HELMET, 5),
+                    new ItemEntry(Items.DIAMOND_BOOTS, 5),
+                    new ItemEntry(Items.DIAMOND_LEGGINGS, 5),
                     new ItemEntry(Items.DIAMOND, 5).apply(version -> SetCountFunction.uniform(2.0F, 6.0F)),
                     new ItemEntry(Items.ENCHANTED_GOLDEN_APPLE, 2)),
             new LootPool(new UniformRoll(3.0F, 4.0F),
@@ -393,7 +393,6 @@ public class NewLootTables {
                     new EmptyEntry(11),
                     new ItemEntry(NewItems.SNOUT_ARMOR_TRIM_SMITHING_TEMPLATE)),
             new LootPool(new ConstantRoll(1),
-                    new EmptyEntry(9),
                     new ItemEntry(NewItems.NETHERITE_UPGRADE_SMITHING_TEMPLATE))
     );
 }
