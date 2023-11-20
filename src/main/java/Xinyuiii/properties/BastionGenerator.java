@@ -107,7 +107,7 @@ public class BastionGenerator {
             if (version.isBetween(MCVersion.v1_16,MCVersion.v1_16_1)) {
                 tables = BastionStructureLoot.STRUCTURE_LOOT_1_16_0.get(p.name);
             }
-            if (version.isBetween(MCVersion.v1_16_2,MCVersion.v1_19_4)) {
+            else if (version.isBetween(MCVersion.v1_16_2,MCVersion.v1_19_4)) {
                 tables = BastionStructureLoot.STRUCTURE_LOOT_1_16_2.get(p.name);
             }
             else {
