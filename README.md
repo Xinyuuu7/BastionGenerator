@@ -2,7 +2,7 @@
 
 Simulate the generation of BastionRemnants for all versions
 
-Thanks for help: De6ris, Kludwisz, Auchor
+Thanks for help: De6ris, Kludwisz, Auchor, RedLime 
 
 Idea provider: DylanDC14
 
