@@ -219,7 +219,7 @@ public class NewLootTables {
                     new ItemEntry(Items.COOKED_PORKCHOP))
     );
 
-    public static final LootTable BASTION_TREASURE_CHEST_1_16_2 = new LootTable(
+public static final LootTable BASTION_TREASURE_CHEST_1_16_2 = new LootTable(
             new LootPool(new ConstantRoll(3),
                     new ItemEntry(Items.NETHERITE_INGOT, 15),
                     new ItemEntry(Items.ANCIENT_DEBRIS, 10),
@@ -230,11 +230,11 @@ public class NewLootTables {
                     new ItemEntry(Items.DIAMOND_HELMET, 6).apply(version -> new ApplyDamageFunction(), version -> new EnchantRandomlyFunction(Items.DIAMOND_HELMET).apply(version)),
                     new ItemEntry(Items.DIAMOND_LEGGINGS, 6).apply(version -> new ApplyDamageFunction(), version -> new EnchantRandomlyFunction(Items.DIAMOND_LEGGINGS).apply(version)),
                     new ItemEntry(Items.DIAMOND_BOOTS, 6).apply(version -> new ApplyDamageFunction(), version -> new EnchantRandomlyFunction(Items.DIAMOND_BOOTS).apply(version)),
-                    new ItemEntry(Items.DIAMOND_SWORD, 6).apply(version -> new ApplyDamageFunction()),
-                    new ItemEntry(Items.DIAMOND_CHESTPLATE, 5).apply(version -> new ApplyDamageFunction()),
-                    new ItemEntry(Items.DIAMOND_HELMET, 5).apply(version -> new ApplyDamageFunction()),
-                    new ItemEntry(Items.DIAMOND_BOOTS, 5).apply(version -> new ApplyDamageFunction()),
-                    new ItemEntry(Items.DIAMOND_LEGGINGS, 5).apply(version -> new ApplyDamageFunction()),
+                    new ItemEntry(Items.DIAMOND_SWORD, 6),
+                    new ItemEntry(Items.DIAMOND_CHESTPLATE, 5),
+                    new ItemEntry(Items.DIAMOND_HELMET, 5),
+                    new ItemEntry(Items.DIAMOND_BOOTS, 5),
+                    new ItemEntry(Items.DIAMOND_LEGGINGS, 5),
                     new ItemEntry(Items.DIAMOND, 5).apply(version -> SetCountFunction.uniform(2.0F, 6.0F)),
                     new ItemEntry(Items.ENCHANTED_GOLDEN_APPLE, 2)),
             new LootPool(new UniformRoll(3.0F, 4.0F),
@@ -248,6 +248,7 @@ public class NewLootTables {
                     new ItemEntry(Items.GILDED_BLACKSTONE).apply(version -> SetCountFunction.uniform(5.0F, 15.0F)),
                     new ItemEntry(Items.MAGMA_CREAM).apply(version -> SetCountFunction.uniform(3.0F, 8.0F)))
     );
+
     // For version 1.20.0+
     public static final LootTable BASTION_BRIDGE_CHEST_1_20_0 = new LootTable(
             new LootPool(new ConstantRoll(1),
