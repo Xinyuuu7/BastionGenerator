@@ -1,4 +1,4 @@
-package Xinyuiii.reecriture;
+package Xinyuiii.BastionGenerator.reecriture;
 
 import com.seedfinding.mcfeature.loot.LootPool;
 import com.seedfinding.mcfeature.loot.LootTable;
@@ -180,7 +180,7 @@ public class NewLootTables {
 
     public static final LootTable BASTION_OTHER_CHEST_1_16_2 = new LootTable(
             new LootPool(new ConstantRoll(1),
-                    new ItemEntry(Items.DIAMOND_PICKAXE, 6).apply(version -> new ApplyDamageFunction(), version -> new EnchantRandomlyFunction(Items.DIAMOND_PICKAXE).apply(version)),
+                    new ItemEntry(Items.DIAMOND_PICKAXE, 6).apply(version -> new EnchantRandomlyFunction(Items.DIAMOND_PICKAXE).apply(version)),
                     new ItemEntry(Items.DIAMOND_SHOVEL, 6),
                     new ItemEntry(Items.CROSSBOW, 6).apply(version -> new ApplyDamageFunction(), version -> new EnchantRandomlyFunction(Items.CROSSBOW).apply(version)),
                     new ItemEntry(Items.ANCIENT_DEBRIS, 12),
@@ -219,7 +219,7 @@ public class NewLootTables {
                     new ItemEntry(Items.COOKED_PORKCHOP))
     );
 
-public static final LootTable BASTION_TREASURE_CHEST_1_16_2 = new LootTable(
+    public static final LootTable BASTION_TREASURE_CHEST_1_16_2 = new LootTable(
             new LootPool(new ConstantRoll(3),
                     new ItemEntry(Items.NETHERITE_INGOT, 15),
                     new ItemEntry(Items.ANCIENT_DEBRIS, 10),
@@ -248,7 +248,6 @@ public static final LootTable BASTION_TREASURE_CHEST_1_16_2 = new LootTable(
                     new ItemEntry(Items.GILDED_BLACKSTONE).apply(version -> SetCountFunction.uniform(5.0F, 15.0F)),
                     new ItemEntry(Items.MAGMA_CREAM).apply(version -> SetCountFunction.uniform(3.0F, 8.0F)))
     );
-
     // For version 1.20.0+
     public static final LootTable BASTION_BRIDGE_CHEST_1_20_0 = new LootTable(
             new LootPool(new ConstantRoll(1),
@@ -317,7 +316,7 @@ public static final LootTable BASTION_TREASURE_CHEST_1_16_2 = new LootTable(
 
     public static final LootTable BASTION_OTHER_CHEST_1_20_0 = new LootTable(
             new LootPool(new ConstantRoll(1),
-                    new ItemEntry(Items.DIAMOND_PICKAXE, 6).apply(version -> new ApplyDamageFunction(), version -> new EnchantRandomlyFunction(Items.DIAMOND_PICKAXE).apply(version)),
+                    new ItemEntry(Items.DIAMOND_PICKAXE, 6).apply(version -> new EnchantRandomlyFunction(Items.DIAMOND_PICKAXE).apply(version)),
                     new ItemEntry(Items.DIAMOND_SHOVEL, 6),
                     new ItemEntry(Items.CROSSBOW, 6).apply(version -> new ApplyDamageFunction(), version -> new EnchantRandomlyFunction(Items.CROSSBOW).apply(version)),
                     new ItemEntry(Items.ANCIENT_DEBRIS, 12),
@@ -350,10 +349,7 @@ public static final LootTable BASTION_TREASURE_CHEST_1_16_2 = new LootTable(
                     new ItemEntry(Items.BONE_BLOCK).apply(version -> SetCountFunction.uniform(3.0F, 6.0F)),
                     new ItemEntry(Items.IRON_NUGGET).apply(version -> SetCountFunction.uniform(2.0F, 8.0F)),
                     new ItemEntry(Items.OBSIDIAN).apply(version -> SetCountFunction.uniform(4.0F, 6.0F)),
-                    new ItemEntry(Items.GOLD_NUGGET).apply(version -> SetCountFunction.uniform(2.0F, 8.0F)),
-                    new ItemEntry(Items.STRING).apply(version -> SetCountFunction.uniform(4.0F, 6.0F)),
-                    new ItemEntry(Items.ARROW, 2).apply(version -> SetCountFunction.uniform(5.0F, 17.0F)),
-                    new ItemEntry(Items.COOKED_PORKCHOP)),
+                    new ItemEntry(Items.GOLD_NUGGET).apply(version -> SetCountFunction.uniform(2.0F, 8.0F))),
             new LootPool(new ConstantRoll(1),
                     new EmptyEntry(11),
                     new ItemEntry(NewItems.SNOUT_ARMOR_TRIM_SMITHING_TEMPLATE)),
