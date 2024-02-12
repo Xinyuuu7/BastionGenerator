@@ -1,4 +1,4 @@
-package Xinyuiii.BastionGenerator.reecriture;
+package Xinyuiii.reecriture;
 
 import com.seedfinding.mcfeature.loot.LootPool;
 import com.seedfinding.mcfeature.loot.LootTable;
@@ -349,7 +349,10 @@ public class NewLootTables {
                     new ItemEntry(Items.BONE_BLOCK).apply(version -> SetCountFunction.uniform(3.0F, 6.0F)),
                     new ItemEntry(Items.IRON_NUGGET).apply(version -> SetCountFunction.uniform(2.0F, 8.0F)),
                     new ItemEntry(Items.OBSIDIAN).apply(version -> SetCountFunction.uniform(4.0F, 6.0F)),
-                    new ItemEntry(Items.GOLD_NUGGET).apply(version -> SetCountFunction.uniform(2.0F, 8.0F))),
+                    new ItemEntry(Items.GOLD_NUGGET).apply(version -> SetCountFunction.uniform(2.0F, 8.0F)),
+                    new ItemEntry(Items.STRING).apply(version -> SetCountFunction.uniform(4.0F, 6.0F)),
+                    new ItemEntry(Items.ARROW, 2).apply(version -> SetCountFunction.uniform(5.0F, 17.0F)),
+                    new ItemEntry(Items.COOKED_PORKCHOP)),
             new LootPool(new ConstantRoll(1),
                     new EmptyEntry(11),
                     new ItemEntry(NewItems.SNOUT_ARMOR_TRIM_SMITHING_TEMPLATE)),
