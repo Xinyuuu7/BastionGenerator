@@ -2,7 +2,7 @@ package Xinyuiii.properties;
 
 import java.util.*;
 
-import Xinyuiii.reecriture.NewDecoratorRandom;
+import Xinyuiii.BastionGenerator.reecriture.NewDecoratorRandom;
 import com.seedfinding.mcbiome.source.NetherBiomeSource;
 import com.seedfinding.mccore.rand.ChunkRand;
 import com.seedfinding.mccore.util.block.BlockBox;
@@ -18,12 +18,12 @@ import com.seedfinding.mcfeature.loot.LootContext;
 import com.seedfinding.mcfeature.loot.LootTable;
 import com.seedfinding.mcfeature.loot.item.ItemStack;
 
-import Xinyuiii.enumType.BastionType;
-import Xinyuiii.enumType.PoolType;
-import Xinyuiii.reecriture.VoxelShape;
-import Xinyuiii.reecriture.BastionPools.BastionStructureLoot;
-import Xinyuiii.reecriture.BastionPools.BastionStructureSize;
-import Xinyuiii.reecriture.BastionPools.JigsawBlock;
+import Xinyuiii.BastionGenerator.enumType.BastionType;
+import Xinyuiii.BastionGenerator.enumType.PoolType;
+import Xinyuiii.BastionGenerator.reecriture.VoxelShape;
+import Xinyuiii.BastionGenerator.reecriture.BastionPools.BastionStructureLoot;
+import Xinyuiii.BastionGenerator.reecriture.BastionPools.BastionStructureSize;
+import Xinyuiii.BastionGenerator.reecriture.BastionPools.JigsawBlock;
 import com.seedfinding.mcfeature.structure.BastionRemnant;
 
 public class BastionGenerator {
@@ -37,32 +37,18 @@ public class BastionGenerator {
         this.version = version;
     }
 
-    public boolean canSpawn(NetherBiomeSource nbs, CPos pos, ChunkRand rand) {
-        if (version.isOlderThan(MCVersion.v1_17)) {
-            rand.setRegionSeed(nbs.getWorldSeed(), pos.getX(), pos.getZ(), 30084232, version);
-            rand.advance(2);
-            int determine = rand.nextInt(5);
-            return determine >= 2 && new BastionRemnant(version).canSpawn(pos, nbs);
-        }
-        rand.setCarverSeed(nbs.getWorldSeed(), pos.getX(), pos.getZ(), version);
-        int determine = rand.nextInt(5);
-        return determine >= 2 && new BastionRemnant(version).canSpawn(pos, nbs);
-    }
-
     public boolean generate(long worldSeed, CPos bastionPos) {
         this.worldSeed = worldSeed;
         return generate(worldSeed, bastionPos.getX(), bastionPos.getZ(), new ChunkRand());
     }
 
-    boolean generate(long worldSeed, int chunkX, int chunkZ, ChunkRand rand) {
-        if (version.isOlderThan(MCVersion.v1_16))
+    private boolean generate(long worldSeed, int chunkX, int chunkZ, ChunkRand rand) {
+        if (version.isOlderThan(MCVersion.v1_16)) {
             throw new UnsupportedVersion(version, " bastions");
-
+        }
         this.pieces = new ArrayList<>();
         boolean standardisedShuffling = version.isNewerOrEqualTo(MCVersion.v1_19);
-
         rand.setCarverSeed(worldSeed, chunkX, chunkZ, version);
-
         BlockRotation rotation;
         if (version.isNewerOrEqualTo(MCVersion.v1_16_2)) {
             rotation = BlockRotation.getRandom(rand);
@@ -72,7 +58,6 @@ public class BastionGenerator {
             rotation = BlockRotation.getRandom(rand);
             rand.nextInt(1); // choose a "random" start template
         }
-
         String template = TYPE_TO_START.get(this.type);
         BPos size = BastionStructureSize.STRUCTURE_SIZE.get(template);
         BPos bPos = new CPos(chunkX, chunkZ).toBlockPos(33);
@@ -82,12 +67,10 @@ public class BastionGenerator {
         int heightY = 0;
         int y = bPos.getY() + heightY;
         int centerY = box.minY + 1;
-
         // create the first piece
         Piece piece = new Piece(template, bPos, box, rotation, 0);
         piece.move(0, y - centerY, 0);
         piece.setBoundsTop(y + 80);
-
         // create structure bounding box
         BlockBox fullBox = new BlockBox(centerX - MAX_DIST, y - MAX_DIST, centerZ - MAX_DIST, centerX + MAX_DIST + 1, y + MAX_DIST + 1, centerZ + MAX_DIST + 1);
         Assembler assembler = new Assembler(6, this.pieces, this.type, y, standardisedShuffling);
@@ -95,13 +78,11 @@ public class BastionGenerator {
         VoxelShape a = new VoxelShape(fullBox);
         a.fullBoxes.add(new BlockBox(box.minX, box.minY, box.minZ, box.maxX + 1, box.maxY + 1, box.maxZ + 1));
         piece.voxelShape = a;
-
         // place pieces
         assembler.placing.addLast(piece);
         while (!assembler.placing.isEmpty()) {
             assembler.tryPlacing(assembler.placing.removeFirst(), rand);
         }
-
         return true;
     }
 
@@ -134,10 +115,14 @@ public class BastionGenerator {
             for (Pair<BPos, LootTable> chest : chestsPos) {
                 CPos chunk = chest.getFirst().toChunkPos();
                 long populationSeed = rand.getPopulationSeed(worldSeed, chunk.getX() << 4, chunk.getZ() << 4);
-                if (version.isNewerOrEqualTo(MCVersion.v1_20)) {
-                    rand.setDecoratorSeed(populationSeed, 0, 4);
-                } else {
-                    rand.setDecoratorSeed(populationSeed, 12, 4);
+                if (version.isBetween(MCVersion.v1_16,MCVersion.v1_18_2)) {
+                    rand.setDecoratorSeed(populationSeed,12,4);
+                }
+                else if (version.isBetween(MCVersion.v1_19,MCVersion.v1_19_2)) {
+                    rand.setDecoratorSeed(populationSeed,13,4);
+                }
+                else if (version.isNewerOrEqualTo(MCVersion.v1_19_3)) {
+                    rand.setDecoratorSeed(populationSeed,0,4);
                 }
                 if (chunkPos.contains(chunk)) {
                     int num = Collections.frequency(chunkPos, chunk);
@@ -282,12 +267,10 @@ public class BastionGenerator {
         public List<BlockJigsawInfo> getShuffledJigsawBlocks(BPos offset, BastionType bastionType, ChunkRand rand) {
             List<JigsawBlock> blocks = bastionType.getJigsawBlocks().get(this.name);
             List<BlockJigsawInfo> list = new ArrayList<>(blocks.size());
-
             for (JigsawBlock b : blocks) {
                 BlockJigsawInfo blockJigsawInfo = new BlockJigsawInfo(b, rotation.rotate(b.relativePos, new BPos(0, 0, 0)).add(offset), rotation);
                 list.add(blockJigsawInfo);
             }
-
             rand.shuffle(list);
             return list;
         }
@@ -384,7 +367,6 @@ public class BastionGenerator {
             VoxelShape mutableobject = new VoxelShape();
             BlockBox box = piece.box;
             int minY = box.minY;
-
             label139:
             for (BlockJigsawInfo blockJigsawInfo : piece.getShuffledJigsawBlocks(pos, this.bastionType, rand)) {
                 BlockDirection blockDirection = blockJigsawInfo.getFront();
@@ -393,15 +375,11 @@ public class BastionGenerator {
                         blockPos.getY() + blockDirection.getVector().getY(),
                         blockPos.getZ() + blockDirection.getVector().getZ());
                 int y = blockPos.getY() - minY;
-
                 Pair<PoolType, List<Pair<String, Integer>>> pool = this.bastionType.getPool().get(blockJigsawInfo.nbt.poolType);
-
-                if (pool != null && pool.getSecond().size() != 0) {
+                if (pool != null && !pool.getSecond().isEmpty()) {
                     PoolType fallbackLocation = pool.getFirst();
                     Pair<PoolType, List<Pair<String, Integer>>> fallbackPool = this.bastionType.getPool().get(fallbackLocation);
-
-                    if (fallbackPool != null && fallbackPool.getSecond().size() != 0) {
-
+                    if (fallbackPool != null && !fallbackPool.getSecond().isEmpty()) {
                         JigSawPool jigSawPool1 = new JigSawPool(pool.getSecond());
                         JigSawPool jigSawPool2 = new JigSawPool(fallbackPool.getSecond());
                         boolean isInside = box.contains(relativeBlockPos);
@@ -410,60 +388,46 @@ public class BastionGenerator {
                             mutableobject1 = mutableobject;
                             if (mutableobject.isNull()) {
                                 mutableobject.setValue(box, true);
-
                             }
                         } else {
                             mutableobject1 = piece.getVoxelShape();
                         }
-
-
                         LinkedList<String> list = new LinkedList<>();
                         if (depth != this.maxDepth) {
                             list = jigSawPool1.getTemplates();
-                            if (list.size() != 0) {
+                            if (!list.isEmpty()) {
                                 rand.shuffle(list);
                                 if (!this.standardisedShuffling)    // older (pre 1.19) versions use a modified shuffling
                                     rand.advance(1);                // algo here for some reason, hence the call skip
                             }
                         }
-
                         LinkedList<String> listtmp = jigSawPool2.getTemplates();
-                        if (listtmp.size() != 0) {
+                        if (!listtmp.isEmpty()) {
                             rand.shuffle(listtmp);
                             if (!this.standardisedShuffling)
                                 rand.advance(1);
                         }
                         list.addAll(listtmp);
-
-
                         for (String jigsawpiece1 : list) {
-
                             if (jigsawpiece1.equals("empty")) {
                                 break;
                             }
-
                             List<BlockRotation> shuffledRotations = BlockRotation.getShuffled(rand);
                             for (BlockRotation rotation1 : shuffledRotations) {
-
                                 BPos size1 = BastionStructureSize.STRUCTURE_SIZE.get(jigsawpiece1);
                                 BlockBox box1 = size1 == null ? new BlockBox(0, 0, 0, 0, 0, 0) : BlockBox.getBoundingBox(BPos.ORIGIN, rotation1, BPos.ORIGIN, BlockMirror.NONE, size1);
                                 Piece piece1 = new Piece(jigsawpiece1, BPos.ORIGIN, box1, rotation1, 0);
                                 List<BlockJigsawInfo> list1;
                                 list1 = piece1.getShuffledJigsawBlocks(BPos.ORIGIN, this.bastionType, rand);
-
                                 // bastion doesnt use expansion hack
                                 // int i1 = 0;
-
                                 BlockDirection direction = blockJigsawInfo.getFront();
-
                                 // Loop to see if we can attach
                                 for (BlockJigsawInfo blockJigsawInfo2 : list1) {
                                     if (blockJigsawInfo.canAttach(blockJigsawInfo2, direction)) {
-
                                         BPos blockPos3 = blockJigsawInfo2.pos;
                                         BPos blockPos4 = new BPos(relativeBlockPos.getX() - blockPos3.getX(),
                                                 relativeBlockPos.getY() - blockPos3.getY(), relativeBlockPos.getZ() - blockPos3.getZ());
-
                                         BlockBox box2;
                                         if (size1 == null) {
                                             box2 = new BlockBox(blockPos4.getX(), blockPos4.getY(), blockPos4.getZ(), blockPos4.getX(),
@@ -474,19 +438,15 @@ public class BastionGenerator {
                                         int j1 = box2.minY;
                                         int k1 = blockPos3.getY();
                                         int l1 = y - k1 + blockJigsawInfo.getFront().getVector().getY();
-
                                         // all bastion pieces are rigid
                                         int i2 = minY + l1;
-
                                         int j2 = i2 - j1;
                                         BlockBox box3 = new BlockBox(box2.minX, box2.minY, box2.minZ, box2.maxX, box2.maxY, box2.maxZ);
                                         box3.move(0, j2, 0);
                                         BPos blockpos5 = blockPos4.add(0, j2, 0);
-
                                         if (isNotEmpty(mutableobject1, box3)) {
                                             mutableobject1.fullBoxes.add(new BlockBox(box3.minX, box3.minY, box3.minZ,
                                                     box3.maxX + 1, box3.maxY + 1, box3.maxZ + 1));
-
                                             Piece piece2 = new Piece(jigsawpiece1, blockpos5, box3, rotation1, depth + 1);
                                             if (depth + 1 <= this.maxDepth) {
                                                 this.pieces.add(piece2);
@@ -506,9 +466,9 @@ public class BastionGenerator {
 
         private boolean isNotEmpty(VoxelShape voxelShape, BlockBox box1) {
             if (box1.minX < voxelShape.getX().get(0) || box1.minY < voxelShape.getY().get(0) || box1.minZ < voxelShape.getZ().get(0)
-                    || box1.maxX >= voxelShape.getLastX() || box1.maxY >= voxelShape.getLastY() || box1.maxZ >= voxelShape.getLastZ())
+                    || box1.maxX >= voxelShape.getLastX() || box1.maxY >= voxelShape.getLastY() || box1.maxZ >= voxelShape.getLastZ()) {
                 return false;
-
+            }
             for (BlockBox fullBox : voxelShape.fullBoxes) {
                 if (intersects2(box1, fullBox)) {
                     return false;
