@@ -3,7 +3,6 @@ package Xinyuiii.properties;
 import java.util.*;
 
 import Xinyuiii.BastionGenerator.reecriture.NewDecoratorRandom;
-import com.seedfinding.mcbiome.source.NetherBiomeSource;
 import com.seedfinding.mccore.rand.ChunkRand;
 import com.seedfinding.mccore.util.block.BlockBox;
 import com.seedfinding.mccore.util.block.BlockDirection;
@@ -24,7 +23,6 @@ import Xinyuiii.BastionGenerator.reecriture.VoxelShape;
 import Xinyuiii.BastionGenerator.reecriture.BastionPools.BastionStructureLoot;
 import Xinyuiii.BastionGenerator.reecriture.BastionPools.BastionStructureSize;
 import Xinyuiii.BastionGenerator.reecriture.BastionPools.JigsawBlock;
-import com.seedfinding.mcfeature.structure.BastionRemnant;
 
 public class BastionGenerator {
     private List<Piece> pieces;
