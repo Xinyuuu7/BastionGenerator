@@ -1,4 +1,4 @@
-package Xinyuiii.reecriture;
+package Xinyuiii.BastionGenerator.reecriture;
 
 import com.seedfinding.mccore.util.block.BlockBox;
 
@@ -19,9 +19,9 @@ public class VoxelShape {
     }
 
     public VoxelShape(BlockBox box) {
-        xs = Arrays.asList((double)box.minX,(double)box.maxX);
-        ys = Arrays.asList((double)box.minY,(double)box.maxY);
-        zs = Arrays.asList((double)box.minZ,(double)box.maxZ);
+        this.xs = Arrays.asList((double)box.minX, (double)box.maxX);
+        this.ys = Arrays.asList((double)box.minY, (double)box.maxY);
+        this.zs = Arrays.asList((double)box.minZ, (double)box.maxZ);
     }
 
     public boolean isNull(){
@@ -29,9 +29,9 @@ public class VoxelShape {
     }
 
     public void setValue(BlockBox box, boolean b) {
-        this.xs = Arrays.asList((double)box.minX,(double)box.maxX+1.0);
-        ys = Arrays.asList((double)box.minY,(double)box.maxY+1.0);
-        zs = Arrays.asList((double)box.minZ,(double)box.maxZ+1);
+        this.xs = Arrays.asList((double)box.minX, (double)box.maxX + 1);
+        this.ys = Arrays.asList((double)box.minY, (double)box.maxY + 1);
+        this.zs = Arrays.asList((double)box.minZ, (double)box.maxZ + 1);
     }
 
     public List<Double> getX(){
@@ -47,14 +47,14 @@ public class VoxelShape {
     }
 
     public double getLastX(){
-        return this.xs.get(xs.size()-1);
+        return this.xs.get(this.xs.size() - 1);
     }
 
     public double getLastY(){
-        return this.ys.get(ys.size()-1);
+        return this.ys.get(this.ys.size() - 1);
     }
 
     public double getLastZ(){
-        return this.zs.get(zs.size()-1);
+        return this.zs.get(this.zs.size() - 1);
     }
 }
