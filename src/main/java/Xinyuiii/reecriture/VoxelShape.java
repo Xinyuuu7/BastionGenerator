@@ -1,4 +1,4 @@
-package Xinyuiii.BastionGenerator.reecriture;
+package Xinyuiii.reecriture;
 
 import com.seedfinding.mccore.util.block.BlockBox;
 
