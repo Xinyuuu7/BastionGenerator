@@ -2,7 +2,7 @@ package Xinyuiii.properties;
 
 import java.util.*;
 
-import Xinyuiii.BastionGenerator.reecriture.NewDecoratorRandom;
+import Xinyuiii.reecriture.NewDecoratorRandom;
 import com.seedfinding.mccore.rand.ChunkRand;
 import com.seedfinding.mccore.util.block.BlockBox;
 import com.seedfinding.mccore.util.block.BlockDirection;
@@ -17,12 +17,12 @@ import com.seedfinding.mcfeature.loot.LootContext;
 import com.seedfinding.mcfeature.loot.LootTable;
 import com.seedfinding.mcfeature.loot.item.ItemStack;
 
-import Xinyuiii.BastionGenerator.enumType.BastionType;
-import Xinyuiii.BastionGenerator.enumType.PoolType;
-import Xinyuiii.BastionGenerator.reecriture.VoxelShape;
-import Xinyuiii.BastionGenerator.reecriture.BastionPools.BastionStructureLoot;
-import Xinyuiii.BastionGenerator.reecriture.BastionPools.BastionStructureSize;
-import Xinyuiii.BastionGenerator.reecriture.BastionPools.JigsawBlock;
+import Xinyuiii.enumType.BastionType;
+import Xinyuiii.enumType.PoolType;
+import Xinyuiii.reecriture.VoxelShape;
+import Xinyuiii.reecriture.BastionPools.BastionStructureLoot;
+import Xinyuiii.reecriture.BastionPools.BastionStructureSize;
+import Xinyuiii.reecriture.BastionPools.JigsawBlock;
 
 public class BastionGenerator {
     private List<Piece> pieces;
